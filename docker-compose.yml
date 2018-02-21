@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+    php7app:
+        # depends_onで依存関係を示す.appでmysqlを使いたいのでdbコンテナを指定.
+        depends_on:
+            - mysqldb
+        # コンテナ名を指定
+        container_name: php7app
+        # build はDockerfileからビルドすることを示す.
+        # pathは相対パスになるので、build/app/Dockerfileが読まれる.
+        build: "./build/app"
+        # ports でポートフォワーディングを指定.
+        ports:
+            - "8888:80"
+        # volumes でマウントの指定.こちらも相対パス.
+        volumes:
+            - "./volumes/app:/var/www/html"
+        # systemctlを使用させる
+        privileged: true
+        # links で連携させるコンテナを示す.
+        # depends_onはビルド時に依存関係を考慮してビルドさせるために指定.
+        # links は appコンテナの/etc/hostsにdbのipを記述してくれる.
+        links:
+            - mysqldb
+    mysqldb:
+        # image はbuildをせず既存イメージを用いる場合に使う.
+        image: mysql
+        # environment は環境変数などのexportをしてくれる.
+        # mysqlのようにenvironmentで指定が必須の変数もあるので、公式イメージを利用する際には注意.
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: database
+        ports:
+            - "13306:3306"
+        # 永続化が必要なものに対してはvolumesなどでホスト側に残す
+        volumes:
+            - "./data/mysql:/var/lib/mysql"
