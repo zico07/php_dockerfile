@@ -11,11 +11,11 @@ RUN yum -y install epel-release && \
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 
 # 念のためglibc更新
-RUN yum reinstall -y glibc-common && yum clean all
+RUN yum update -y glibc-common && yum clean all
 
 # phpとapache関連
 RUN yum install -y vim git && \
-yum install -y --enablerepo=remi,remi-php72 php php-devel php-mbstring php-pdo php-gd php-mysql php-pear php-mcrypt php-tokenizer php-xdebug php-zip httpd mod_ssl
+yum install -y --enablerepo=remi,remi-php72 php php-devel php-mbstring php-pdo php-gd php-mysql php-pear php-mcrypt php-tokenizer php-xdebug php-zip httpd mod_ssl iproute
 
 RUN curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer
@@ -31,4 +31,5 @@ mv composer.phar /usr/local/bin/composer
 # apacheの場合は以下.
 # CMD ["apache2","-DFOREGROUND"]
 # CMD命令は最後に記述されたものだけが有効となるので注意.
+RUN systemctl enable httpd.service
 ENTRYPOINT /sbin/init
