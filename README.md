@@ -17,17 +17,17 @@
   - コンテナの統合管理。web-dbの関連付けやローカルボリュームのマウントを行う。
 
 - build/app/Dockerfile
-  - dockerの構築コマンド管理ファイル。docker-compose.ymlで本ファイルを指定する。
+  - dockerの構築コマンド管理ファイル。docker-compose.ymlで本ファイルを指定する。
 
 - data/mysql/*
-  - mysqlのデータを永続化するためのディレクトリ。ローカルボリュームとマウントすることで永続化を実現。docker-compose.ymlで指定する。
+  - mysqlのデータを永続化するためのディレクトリ。ローカルボリュームとマウントすることで永続化を実現。docker-compose.ymlで指定する。
 
 - volumes/app/*
   - WebサーバのDocumentRoot。ローカルボリュームとマウントすることで永続化を実現。docker-compose.ymlで指定する。
 
 ## 使い方
 
-1. 80番、3306番ポートを使用したdockerコンテナが起動していないことを確認。起動していたら止める。
+1. 80番、3306番ポートを使用したdockerコンテナが起動していないことを確認。起動していたら止める。
 
 2. docker-compose.ymlがあるディレクトリに移動し
 
